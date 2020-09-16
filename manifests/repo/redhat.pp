@@ -15,10 +15,10 @@ class php::repo::redhat (
     default       => '$releasever',  # Yum var
   }
 
-  yumrepo { 'remi':
-    descr      => 'Remi\'s RPM repository for Enterprise Linux $releasever - $basearch',
-    mirrorlist => "https://cdn.remirepo.net/enterprise/${releasever}/remi/mirror",
-    enabled    => 0,
+  yumrepo { 'remi-safe':
+    descr      => 'Safe Remi\'s RPM repository for Enterprise Linux $releasever - $basearch',
+    mirrorlist => "https://cdn.remirepo.net/enterprise/${releasever}/safe/mirror",
+    enabled    => 1,
     gpgcheck   => 1,
     gpgkey     => 'https://rpms.remirepo.net/RPM-GPG-KEY-remi',
     priority   => 1,
