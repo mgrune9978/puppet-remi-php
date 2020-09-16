@@ -17,8 +17,8 @@ class php::repo::redhat (
 
   yumrepo { 'remi':
     descr      => 'Remi\'s RPM repository for Enterprise Linux $releasever - $basearch',
-    mirrorlist => "https://rpms.remirepo.net/enterprise/${releasever}/remi/mirror",
-    enabled    => 1,
+    mirrorlist => "https://cdn.remirepo.net/enterprise/${releasever}/remi/mirror",
+    enabled    => 0,
     gpgcheck   => 1,
     gpgkey     => 'https://rpms.remirepo.net/RPM-GPG-KEY-remi',
     priority   => 1,
@@ -50,6 +50,7 @@ class php::repo::redhat (
   yumrepo { "remi-php${version_repo}":
     ensure     => 'present',
     descr      => "Remi\'s PHP ${version_real} RPM repository for Enterprise Linux \$releasever - \$basearch",
+    mirrorlist => "http://cdn.remirepo.net/enterprise/${releasever}/php${version_repo}/mirror",
     enabled    => '1',
     gpgcheck   => '1',
     gpgkey     => 'https://rpms.remirepo.net/RPM-GPG-KEY-remi',
