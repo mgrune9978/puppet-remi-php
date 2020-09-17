@@ -9,19 +9,12 @@
 class php::repo::redhat (
   $yum_repo = 'remi_php56',
 ) {
+  # Convert the point version in to non point.  aka 5.6 -> 56
+  $version_short = regsubst($version_real, '\.', '', 'G')
 
   $releasever = $facts['os']['name'] ? {
     /(?i:Amazon)/ => '6',
     default       => '$releasever',  # Yum var
-  }
-
-  yumrepo { 'remi-safe':
-    descr      => 'Safe Remi\'s RPM repository for Enterprise Linux $releasever - $basearch',
-    mirrorlist => "https://cdn.remirepo.net/enterprise/${releasever}/safe/mirror",
-    enabled    => 1,
-    gpgcheck   => 1,
-    gpgkey     => 'https://rpms.remirepo.net/RPM-GPG-KEY-remi',
-    priority   => 1,
   }
 
   if($::php::globals::php_version == undef) {
@@ -35,24 +28,21 @@ class php::repo::redhat (
   }
   assert_type(Pattern[/^\d\.\d/], $version_real)
 
-  $version_repo = $version_real ? {
-    '5.4' => '54',
-    '5.6' => '56',
-    '7.0' => '70',
-    '7.1' => '71',
-    '7.2' => '72',
-    '7.3' => '73',
-    '7.4' => '74',
-    '7.5' => '75',
-    '7.6' => '76',
-  }
-
-  yumrepo { "remi-php${version_repo}":
+  yumrepo { "remi-php${version_short}":
     ensure     => 'present',
     descr      => "Remi\'s PHP ${version_real} RPM repository for Enterprise Linux \$releasever - \$basearch",
-    mirrorlist => "http://cdn.remirepo.net/enterprise/${releasever}/php${version_repo}/mirror",
+    mirrorlist => "http://cdn.remirepo.net/enterprise/${releasever}/php${version_short}/mirror",
     enabled    => '1',
     gpgcheck   => '1',
+    gpgkey     => 'https://rpms.remirepo.net/RPM-GPG-KEY-remi',
+    priority   => 1,
+  }
+
+  yumrepo { 'remi-safe':
+    descr      => 'Safe Remi\'s RPM repository for Enterprise Linux $releasever - $basearch',
+    mirrorlist => "https://cdn.remirepo.net/enterprise/${releasever}/safe/mirror",
+    enabled    => 1,
+    gpgcheck   => 1,
     gpgkey     => 'https://rpms.remirepo.net/RPM-GPG-KEY-remi',
     priority   => 1,
   }
