@@ -31,7 +31,7 @@ class php::repo::redhat {
 
   yumrepo { 'remi-safe':
     descr      => 'Safe Remi\'s RPM repository for Enterprise Linux $releasever - $basearch',
-    mirrorlist => "https://cdn.remirepo.net/enterprise/${releasever}/safe/mirror",
+    mirrorlist => "http://cdn.remirepo.net/enterprise/${releasever}/safe/mirror",
     enabled    => 1,
     gpgcheck   => 1,
     gpgkey     => 'https://rpms.remirepo.net/RPM-GPG-KEY-remi',
